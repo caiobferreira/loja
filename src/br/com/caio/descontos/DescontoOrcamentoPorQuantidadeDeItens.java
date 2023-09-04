@@ -4,15 +4,18 @@ import br.com.caio.orcamento.Orcamento;
 
 import java.math.BigDecimal;
 
-public class DescontoOrcamentoPorQuantidadeDeItens extends Desconto{
+public class DescontoOrcamentoPorQuantidadeDeItens extends Desconto {
     public DescontoOrcamentoPorQuantidadeDeItens(Desconto proximo) {
         super(proximo);
     }
 
-    public BigDecimal calcular(Orcamento orcamento) {
-        if (orcamento.getQuantidadeDeItens() > 5) {
-            return orcamento.getValor().multiply(new BigDecimal("0.1"));
-        }
-        return proximo.calcular(orcamento);
+    @Override
+    protected BigDecimal efetuarCalculo(Orcamento orcamento) {
+        return orcamento.getValor().multiply(new BigDecimal("0.1"));
+    }
+
+    @Override
+    public boolean descontoValido(Orcamento orcamento) {
+        return orcamento.getQuantidadeDeItens() > 5;
     }
 }

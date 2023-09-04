@@ -21,5 +21,10 @@ public class Main {
         System.out.println(calculadoraDeDesconto.calcular(orcamento2));
         System.out.println(calculadoraDeDesconto.calcular(orcamento3));
 
+        System.out.println("Template Method");
+        System.out.println(calculadoraDeDesconto.calcular(orcamento2));
+        System.out.println(calculadoraDeDesconto.calcular(orcamento3));
+
+
     }
 }
