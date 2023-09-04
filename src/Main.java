@@ -1,15 +1,17 @@
+import br.com.caio.acoes.EnviarEmail;
+import br.com.caio.acoes.SalvarBD;
 import br.com.caio.cliente.Cliente;
 import br.com.caio.descontos.CalculadoraDeDescontos;
 import br.com.caio.imposto.CalculadoraDeImpostos;
 import br.com.caio.imposto.ICMS;
 import br.com.caio.orcamento.Orcamento;
 import br.com.caio.pedido.GeraPedido;
+import br.com.caio.pedido.GerarPedidoHandler;
 import br.com.caio.pedido.Pedido;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -38,9 +40,12 @@ public class Main {
         orcamento.aprovar();
         System.out.println(orcamento.getValor());
         System.out.println("Command");
-        Pedido pedido = new GeraPedido(cliente, orcamento.getValor(), orcamento.getQuantidadeDeItens());
-        System.out.println(pedido.getCliente().getNome() + " " + pedido.getData().format(DateTimeFormatter.ofPattern("YYYY/MM/DD")) + " " + pedido.getOrcamento().getValor());
-        System.out.println(pedido.getCliente().getToken());
+        GeraPedido gerador = new GeraPedido(cliente, orcamento.getValor(), orcamento.getQuantidadeDeItens());
+        GerarPedidoHandler handler = new GerarPedidoHandler(Arrays.asList(
+                new EnviarEmail(),
+                new SalvarBD()
+        ));
+        handler.salvar(gerador.executa());
     // Actions após pedido ser criado, integração com banco de dados dependency injection;
 
     }

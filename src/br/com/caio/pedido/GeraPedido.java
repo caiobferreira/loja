@@ -6,21 +6,18 @@ import br.com.caio.orcamento.Orcamento;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class GeraPedido extends Pedido {
+public class GeraPedido{
     private Cliente cliente;
     private BigDecimal valorOrcamento;
     private int quantidadeItens;
 
     public GeraPedido(Cliente cliente, BigDecimal valorOrcamento, int quantidadeItens) {
-        super(cliente, LocalDateTime.now(), new Orcamento(valorOrcamento, quantidadeItens));
+        this.cliente = cliente;
+        this.valorOrcamento = valorOrcamento;
+        this.quantidadeItens = quantidadeItens;
     }
 
-    public boolean salvar(){
-        return new GerarPedidoHandler(this) {
-            @Override
-            public boolean salvar() {
-                return false;
-            }
-        }.salvar();
+    public Pedido executa(){
+        return new Pedido(this.cliente, LocalDateTime.now(), new Orcamento(this.valorOrcamento, this.quantidadeItens));
     }
 }
